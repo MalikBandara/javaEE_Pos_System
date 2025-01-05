@@ -1,0 +1,532 @@
+/* item css apply start */
+
+@media (max-width: 768px) {
+    /* Adjust the header and navigation */
+
+
+
+
+
+
+
+
+    /* Make the table scrollable horizontally */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Stack elements vertically */
+    .row {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .col-lg-12 {
+        width: 100%;
+    }
+
+    .btn {
+        width: 30%;
+        margin-bottom: 10px;
+    }
+    .button-update-clear-delete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        /* Adjust card padding and margins */
+        .card {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-dialog {
+            max-width: 100%;
+            margin: 0;
+        }
+
+        /* Adjust input and button sizes */
+        .input-group .form-control {
+            width: 100%;
+        }
+
+        .btn {
+            font-size: 14px;
+        }
+
+        /* Adjust the table's text */
+        .table-custom {
+            font-size: 14px;
+        }
+
+        /* General text and element size adjustments */
+        h1,
+        h5 {
+            font-size: 20px;
+        }
+
+        label,
+        .form-label {
+            font-size: 14px;
+        }
+    }
+
+}
+@media (max-width: 425px)   {
+    /* Adjust the header and navigation for small screens */
+
+    .search-span{
+        font-size: 10px;
+    }
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 25px;
+    }
+
+    .gap-5{
+        gap: 0;
+    }
+
+
+
+
+    /* Stack elements vertically */
+    .row {
+        flex-direction: column;
+    }
+
+    .col-6,
+    .col-lg-12 {
+        width: 100%;
+    }
+
+    /* Buttons should take full width */
+    .btn {
+        width: 20%;
+        margin-bottom: 8px;
+    }
+
+    /* Adjust the card padding and reduce spacing */
+    .card {
+        padding: 8px;
+        margin-bottom: 15px;
+
+    }
+
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* Adjust input fields and button sizes for small screens */
+    .input-group .form-control {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    /* Table should be scrollable and font size reduced */
+    .table-custom {
+        font-size: 12px;
+    }
+
+    /* Responsive text sizes */
+    h1 {
+        font-size: 18px;
+    }
+
+    h5 {
+        font-size: 16px;
+    }
+
+    label,
+    .form-label {
+        font-size: 12px;
+    }
+
+    /* Smaller modal body padding */
+    .modal-body {
+        padding: 15px;
+    }
+
+    /* Adjust the table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Reduce padding around buttons */
+    .btn {
+        padding: 6px 8px;
+    }
+}
+
+@media (max-width: 375px) {
+    /* Adjust the header and navigation for smaller screens */
+
+    .btn {
+        width: 20%;
+        margin-bottom: 10px;
+    }
+
+
+
+
+    /* Stack elements vertically */
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-6,
+    .col-lg-12 {
+        width: 100%;
+    }
+
+    /* Buttons should take full width */
+
+
+    /* Adjust the card padding and reduce spacing */
+    .card {
+        padding: 6px;
+        margin-bottom: 10px;
+    }
+
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* Adjust input fields and button sizes */
+    .input-group .form-control {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    /* Table should be scrollable and font size reduced */
+    .table-custom {
+        font-size: 12px;
+    }
+
+    /* Responsive text sizes */
+    h1 {
+        font-size: 16px;
+    }
+
+    h5 {
+        font-size: 14px;
+    }
+
+    label,
+    .form-label {
+        font-size: 12px;
+    }
+
+    /* Smaller modal body padding */
+    .modal-body {
+        padding: 10px;
+    }
+
+    /* Adjust the table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Reduce padding around buttons */
+    .btn {
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 320px) {
+    /* Adjust the header and navigation for smallest screens */
+
+
+
+
+    /* Stack elements vertically */
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-6,
+    .col-lg-12 {
+        width: 100%;
+    }
+
+    /* Buttons should take full width */
+    .btn {
+        width: 20%;
+        margin-bottom: 5px;
+    }
+
+    /* Adjust the card padding and reduce spacing */
+    .card {
+        padding: 5px;
+        margin-bottom: 8px;
+    }
+
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* Adjust input fields and button sizes */
+    .input-group .form-control {
+        width: 100%;
+        font-size: 10px;
+    }
+
+    .btn {
+        font-size: 10px;
+    }
+
+    /* Table should be scrollable and font size reduced */
+    .table-custom {
+        font-size: 10px;
+    }
+
+    /* Responsive text sizes */
+    h1 {
+        font-size: 14px;
+    }
+
+    h5 {
+        font-size: 12px;
+    }
+
+    label,
+    .form-label {
+        font-size: 10px;
+    }
+
+    /* Smaller modal body padding */
+    .modal-body {
+        padding: 8px;
+    }
+
+    /* Adjust the table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Reduce padding around buttons */
+    .btn {
+        padding: 4px 6px;
+    }
+}
+
+/* item css apply end */
+
+/* customer css  */
+
+@media (max-width: 768px) {
+    .customer-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 425px) {
+
+
+
+
+
+
+    h1 {
+        font-size: 18px;
+    }
+
+    .card {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        font-size: 15px;
+        width: 50%;
+        margin-bottom: 8px;
+    }
+
+    .table-custom {
+        font-size: 12px;
+    }
+
+    .input-group .form-control {
+        font-size: 12px;
+    }
+}
+
+/* Styles for screens with width up to 375px (extra small smartphones) */
+@media (max-width: 375px) {
+
+
+    h1 {
+        font-size: 16px;
+    }
+
+    .card {
+        padding: 6px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        font-size: 8px;
+        width: 80%;
+        margin-bottom: 6px;
+    }
+
+    .table-custom {
+        font-size: 10px;
+    }
+
+    .input-group .form-control {
+        font-size: 10px;
+    }
+}
+
+/* Styles for screens with width up to 320px (very small smartphones) */
+@media (max-width: 320px) {
+
+
+    h1 {
+        font-size: 14px;
+    }
+
+    .card {
+        padding: 5px;
+        margin-bottom: 8px;
+    }
+
+    .btn {
+        font-size: 8px;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .table-custom {
+        font-size: 8px;
+    }
+
+    .input-group .form-control {
+        font-size: 8px;
+    }
+}
+
+
+
+.login-div{
+
+    font-family: "Poppins", sans-serif;
+    position: relative;
+
+}
+.btn-home{
+    position: absolute;
+    top:-20%;
+    left: 0;
+    margin: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+}
+@media (max-width : 425px) {
+    .btn-home {
+        padding-right: 0;
+        padding-left: 0;
+        width: 75px;
+        left: -25px;
+        top: 20px;
+
+    }
+    .reso-regi{
+        display: flex;
+        flex-direction: column;
+    }
+    span{
+        font-size: 12px;
+    }
+}
+@media (max-width : 1024px) {
+    .btn-home {
+        padding-right: 0;
+        padding-left: 0;
+        width: 75px;
+        left: -25px;
+        top: 20px;
+
+    }
+    .reso-regi{
+        display: flex;
+        flex-direction: column;
+    }
+    span{
+        font-size: 12px;
+    }
+}
+@media (max-width : 1440px) {
+    .btn-home {
+        padding-right: 0;
+        padding-left: 0;
+        width: 75px;
+        left: -25px;
+        top: 20px;
+
+    }
+    .reso-regi{
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+    }
+    span{
+        font-size: 12px;
+    }
+}
+@media (max-width : 768px) {
+    .btn-home {
+        padding-right: 0;
+        padding-left: 0;
+        width: 75px;
+        left: -25px;
+        top: 20px;
+
+    }
+
+    .reso-regi{
+        display: flex;
+        flex-direction: column;
+
+    }
+    span{
+        font-size: 12px;
+    }
+}
+
+
+.margine{
+    margin-top: 200px;
+}
+
+body {
+    background: rgb(240, 242, 255); /* Fallback color */
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(180, 210, 255) 30%, rgb(130, 170, 255) 60%, rgb(200, 220, 255) 100%);
+}
