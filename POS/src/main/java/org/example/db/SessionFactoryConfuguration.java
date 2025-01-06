@@ -1,8 +1,8 @@
-package org.example;
+package org.example.db;
 
 
 
-import jakarta.persistence.criteria.Order;
+import org.example.entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -14,7 +14,7 @@ public class SessionFactoryConfuguration {
     private static SessionFactory sessionFactory;
 
     public SessionFactoryConfuguration() {
-        Configuration configure = new Configuration().configure().addAnnotatedClass(Customer.class).addAnnotatedClass(Item.class).addAnnotatedClass(ItemDetails.class).addAnnotatedClass(Orders.class);
+        Configuration configure = new Configuration().configure().addAnnotatedClass(Customer.class);
         sessionFactory = configure.buildSessionFactory();
     }
 
