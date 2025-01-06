@@ -12,4 +12,5 @@ public interface CrudDAO<T> extends SuperDAO{
 
     List<T> getAll();
 
+    boolean delete(int customerId);
 }

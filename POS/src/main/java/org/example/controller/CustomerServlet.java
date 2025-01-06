@@ -34,6 +34,25 @@ public class CustomerServlet extends HttpServlet {
     CustomerBo customerBo = (CustomerBo) BoFactory.getBoFactory().getBo(BoTypes.CUSTOMER);
 
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String customerId = req.getParameter("customerId");
+
+        int id = Integer.parseInt(customerId);
+
+        boolean b = customerBo.deleteCustomer(id);
+
+        if (b) {
+            resp.setStatus(200);
+            resp.setStatus(HttpServletResponse.SC_OK);
+            resp.getWriter().write("Customer Delete successfully");
+        } else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+            resp.getWriter().write("Customer not found");
+        }
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -68,4 +68,19 @@ public class CustomerDaoImpl implements CustomerDao {
         return customers;
 
     }
+
+    @Override
+    public boolean delete(int customerId) {
+
+        Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Customer customer = session.get(Customer.class, customerId);
+
+        session.delete(customer);
+        transaction.commit();
+        session.close();
+        return true;
+
+    }
 }

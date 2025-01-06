@@ -46,4 +46,9 @@ public class CustomerBoImpl implements CustomerBo {
         }
         return customerDTOS;
     }
+
+    @Override
+    public boolean deleteCustomer(int customerId) {
+      return  customerDao.delete(customerId);
+    }
 }

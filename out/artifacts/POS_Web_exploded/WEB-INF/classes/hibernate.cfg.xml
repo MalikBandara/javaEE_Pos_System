@@ -7,7 +7,7 @@
     <property name="connection.password">QWer12@*</property>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.hbm2ddl.auto=validate">update</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

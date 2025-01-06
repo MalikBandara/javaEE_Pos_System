@@ -12,4 +12,6 @@ public interface CustomerBo extends SuperBO {
     boolean updateCustomer(CustomerDTO customerDTO);
 
     List<CustomerDTO> getAllCustomer();
+
+    boolean deleteCustomer(int customerId);
 }
