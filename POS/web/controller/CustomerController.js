@@ -70,11 +70,13 @@ $("#customerSaveButton").click(()=>{
                      Customer_Email:Email
                 },
                 success:(response)=>{
+                    getAllCustomers();
                     Swal.fire({
                         title: "Customer Saved!",
                         text: "The customer has been successfully saved.",
                         icon: "success",
                         confirmButtonText: "OK",
+
                     });
                     console.log(customerId)
                     console.log(name)
@@ -92,3 +94,43 @@ $("#customerSaveButton").click(()=>{
 
 
 })
+
+
+$("#CustomerUpdateButton").click(()=>{
+
+})
+
+
+
+const getAllCustomers =  () =>{
+
+
+    $.ajax({
+        url:"http://localhost:8080/POS_Web_exploded/customer",
+        method: "GET",
+        success:(response)=>{
+            console.log(response); // Check if it's an array
+
+            $("#CustomerTableBody").empty();
+
+            response.forEach(customer => {
+                let data =
+                    `<tr>
+                    <td>${customer.customerId}</td>
+                    <td>${customer.Customer_Name}</td>
+                    <td>${customer.Customer_Address}</td>
+                    <td>${customer.Customer_Salary}</td>
+                    <td>${customer.Customer_Mobile}</td>
+                    <td>${customer.Customer_Email}</td>
+                 </tr>`;
+
+                $("#CustomerTableBody").append(data);
+            });
+        },error:(error)=>{
+            console.error(error);
+        }
+    })
+
+
+}
+getAllCustomers();

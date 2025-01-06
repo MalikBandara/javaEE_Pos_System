@@ -43,6 +43,9 @@
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-runtime:4.0.2" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.25.1" />
           <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.5.1" />
+          <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.1.4" />
+          <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.1.4" />
+          <element id="library" level="project" name="javax.json-1.1.4" />
         </element>
       </element>
     </root>
