@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDaoImpl implements ItemDao {
@@ -35,7 +36,21 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public List<Item> getAll() {
-        return null;
+
+        Transaction transaction = null;
+        try (Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession()){
+             transaction =  session.beginTransaction();
+
+
+             List<Item> itemList = new ArrayList<>();
+             itemList = session.createQuery("from Item").list();
+             transaction.commit();
+             return itemList;
+        }catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return null;
+        }
     }
 
     @Override

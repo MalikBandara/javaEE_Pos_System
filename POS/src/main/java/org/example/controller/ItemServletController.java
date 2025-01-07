@@ -11,14 +11,21 @@ import org.example.bo.BoTypes;
 import org.example.dto.ItemDTO;
 import org.example.entity.Item;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
-@WebServlet(urlPatterns = "/item/")
+@WebServlet(urlPatterns = "/item/*")
 
 public class ItemServletController extends HttpServlet {
 
     ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBo(BoTypes.ITEM);
+
+
 
 
     @Override
@@ -27,11 +34,38 @@ public class ItemServletController extends HttpServlet {
             String pathInfo = req.getPathInfo();
             System.out.println("Path Info: " + pathInfo); // Debug log
 
-            if (pathInfo == null || pathInfo.equals("/") || pathInfo.equals("/next-id")) {
+            // Check if the path is for generating next ID
+            if (pathInfo != null && pathInfo.equals("/next-id")) {
                 int nextId = itemBo.generateNextId();
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
                 resp.getWriter().write("{\"nextId\": " + nextId + "}");
+            } else if (pathInfo == null || pathInfo.equals("/")) {
+                // If no specific path or base path, fetch all items
+                List<ItemDTO> allItems = itemBo.getAllItems();
+
+                List<Item> itemList = new ArrayList<>();
+                for (ItemDTO itemDTO : allItems) {
+                    Item item = new Item();
+                    item.setItemCode(itemDTO.getItemCode());
+                    item.setItemName(itemDTO.getItemName());
+                    item.setItemPrice(itemDTO.getItemPrice());
+                    item.setQuantity(itemDTO.getQuantity());
+                    itemList.add(item);
+                }
+
+                JsonArrayBuilder allItemsJson = Json.createArrayBuilder();
+                for (Item item : itemList) {
+                    JsonObjectBuilder itemJson = Json.createObjectBuilder();
+                    itemJson.add("ItemCode", item.getItemCode());
+                    itemJson.add("ItemName", item.getItemName());
+                    itemJson.add("ItemPrice", item.getItemPrice());
+                    itemJson.add("Quantity", item.getQuantity());
+                    allItemsJson.add(itemJson);
+                }
+
+                resp.setContentType("application/json");
+                resp.getWriter().write(allItemsJson.build().toString());
             } else {
                 // Handle invalid or unsupported GET requests
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -39,14 +73,17 @@ public class ItemServletController extends HttpServlet {
                 resp.setCharacterEncoding("UTF-8");
                 resp.getWriter().write("{\"error\": \"Invalid endpoint\"}");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().write("{\"error\": \"Failed to generate next ID\"}");
+            resp.getWriter().write("{\"error\": \"Failed to process request\"}");
         }
     }
+
+
 
 
 

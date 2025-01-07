@@ -7,6 +7,9 @@ import org.example.dao.dao.ItemDao;
 import org.example.dto.ItemDTO;
 import org.example.entity.Item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemBoImpl implements ItemBo {
 
 
@@ -20,5 +23,26 @@ public class ItemBoImpl implements ItemBo {
     @Override
     public int generateNextId() {
        return itemDao.IdGenerate();
+    }
+
+    @Override
+    public List<ItemDTO> getAllItems() {
+        List<Item> all = itemDao.getAll();
+
+        ItemDTO itemDTO = new ItemDTO();
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+
+        for (Item item : all){
+
+            itemDTO.setItemCode(item.getItemCode());
+            itemDTO.setItemName(item.getItemName());
+            itemDTO.setItemPrice(item.getItemPrice());
+            itemDTO.setQuantity(item.getQuantity());
+            itemDTOS.add(itemDTO);
+
+        }
+        return itemDTOS;
+
+
     }
 }
