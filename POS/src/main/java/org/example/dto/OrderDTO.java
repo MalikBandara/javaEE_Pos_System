@@ -18,4 +18,16 @@ public class OrderDTO {
     private String Quantity;
     private String subtotal;
     private Customer customer;
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "orderId='" + orderId + '\'' +
+                ", quantity='" + Quantity + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", itemPrice='" + itemPrice + '\'' +
+                ", subtotal='" + subtotal + '\'' +
+                ", customer=" + customer +
+                '}';
+    }
 }

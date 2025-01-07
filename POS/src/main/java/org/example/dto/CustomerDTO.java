@@ -25,4 +25,5 @@ public class CustomerDTO {
         this.CustomerMobile = mobile;
         this.CustomerEmail= email;
     }
+
 }
