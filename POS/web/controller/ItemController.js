@@ -171,6 +171,7 @@ $("#DeleteItem").click(()=>{
                 confirmButtonText: "OK",
             });
         }
+
     });
 
 

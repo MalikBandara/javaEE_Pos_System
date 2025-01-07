@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerId;
     @Column(name = "Customer_Name", nullable = false)
     private String CustomerName;
@@ -26,8 +25,13 @@ public class Customer {
     @Column(name = "Customer_Email", nullable = false)
     private String CustomerEmail;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
 
-    public Customer(String name, String address, String salary, String mobile, String email) {
+
+    public Customer(int id , String name, String address, String salary, String mobile, String email) {
+
+         this.customerId = id;
          this.CustomerName = name;
          this.CustomerAddress= address;
          this.CustomerSalary = salary;

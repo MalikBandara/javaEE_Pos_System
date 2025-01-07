@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = "/customer")
+@WebServlet(urlPatterns = "/customer/*")
 
 public class CustomerServletController extends HttpServlet {
 
@@ -51,65 +51,50 @@ public class CustomerServletController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String pathInfo = req.getPathInfo();
+            System.out.println("Customer Path info: " + pathInfo);
 
+            if (pathInfo != null && pathInfo.equals("/nextCus-id")) {
+                // Fetch next customer ID
+                int nextCustomerId = customerBo.getNextCustomerId();
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                resp.getWriter().write("{\"nextIdCus\": " + nextCustomerId + "}");
+            } else if (pathInfo == null || pathInfo.equals("/")) {
+                // Fetch all customers
+                List<CustomerDTO> allCustomer = customerBo.getAllCustomer();
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
 
-        //ena data DTO type eke data
-        List<CustomerDTO> allCustomer = customerBo.getAllCustomer();
-
-        System.out.println("Fetched customers: " + allCustomer); // Debug line
-
-
-        // list ekak hadagena ekata dagannava
-
-        List<Customer> customerList = new ArrayList<>();
-
-
-        //DTO dat customer Entity ekt da gannava
-        for (CustomerDTO customerDTO : allCustomer) {
-            Customer customer = new Customer();
-            customer.setCustomerId(customerDTO.getCustomerId());
-            customer.setCustomerName(customerDTO.getCustomerName());
-            customer.setCustomerEmail(customerDTO.getCustomerEmail());
-            customer.setCustomerMobile(customerDTO.getCustomerMobile());
-            customer.setCustomerSalary(customerDTO.getCustomerSalary());
-            customer.setCustomerAddress(customerDTO.getCustomerAddress());
-
-
-            //list ekt DTO eken entity ekt dagatta data tika add krnv
-            customerList.add(customer);
+                if (allCustomer != null && !allCustomer.isEmpty()) {
+                    JsonArrayBuilder allCustomersJson = Json.createArrayBuilder();
+                    for (CustomerDTO customerDTO : allCustomer) {
+                        JsonObjectBuilder customerJson = Json.createObjectBuilder()
+                                .add("customerId", customerDTO.getCustomerId())
+                                .add("Customer_Name", customerDTO.getCustomerName())
+                                .add("Customer_Email", customerDTO.getCustomerEmail())
+                                .add("Customer_Mobile", customerDTO.getCustomerMobile())
+                                .add("Customer_Salary", customerDTO.getCustomerSalary())
+                                .add("Customer_Address", customerDTO.getCustomerAddress());
+                        allCustomersJson.add(customerJson);
+                    }
+                    resp.getWriter().write(allCustomersJson.build().toString());
+                } else {
+                    resp.getWriter().write("{\"error\": \"No customers found\"}");
+                }
+            } else {
+                // Invalid endpoint
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.getWriter().write("{\"error\": \"Invalid endpoint\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.getWriter().write("{\"error\": \"Failed to process request: " + e.getMessage() + "\"}");
         }
-
-        //jason array
-
-        JsonArrayBuilder allcustomers = Json.createArrayBuilder();
-
-
-        //list ek loop karala jason object ekata data dagannava
-        for (Customer customer : customerList){
-            JsonObjectBuilder customerObject = Json.createObjectBuilder();
-
-            customerObject.add("customerId",customer.getCustomerId());
-            customerObject.add("Customer_Name",customer.getCustomerName());
-            customerObject.add("Customer_Address",customer.getCustomerAddress());
-            customerObject.add("Customer_Salary",customer.getCustomerSalary());
-            customerObject.add("Customer_Mobile",customer.getCustomerMobile());
-            customerObject.add("Customer_Email",customer.getCustomerEmail());
-
-
-            //jason array ekt jason object data tika dagannava
-            allcustomers.add(customerObject);
-        }
-
-
-        //yavana type ek application/json kiyl dagannava
-
-
-        //get method to CustomerController.js passing data and set it in to table in js file
-        resp.setContentType("application/json");
-        resp.getWriter().write(allcustomers.build().toString());
-
-
     }
+
 
 
     @Override
@@ -150,15 +135,17 @@ public class CustomerServletController extends HttpServlet {
 
         try {
 
-
+            String customerId = req.getParameter("customerId");
             String name = req.getParameter("Customer_Name");
             String address = req.getParameter("Customer_Address");
             String mobile = req.getParameter("Customer_Mobile");
             String email = req.getParameter("Customer_Email");
             String salaryInput = req.getParameter("Customer_Salary");
 
+            int id = Integer.parseInt(customerId);
 
-            CustomerDTO customerDTO = new CustomerDTO(name, address, salaryInput, mobile, email);
+
+            CustomerDTO customerDTO = new CustomerDTO(id,name, address, salaryInput, mobile, email);
 
             boolean b = customerBo.SaveCustomer(customerDTO);
 

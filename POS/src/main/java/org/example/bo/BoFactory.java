@@ -2,6 +2,7 @@ package org.example.bo;
 
 import org.example.bo.impl.CustomerBoImpl;
 import org.example.bo.impl.ItemBoImpl;
+import org.example.bo.impl.OrderBoImpl;
 
 public class BoFactory {
 
@@ -28,6 +29,9 @@ public class BoFactory {
 
         case ITEM:
             return new ItemBoImpl();
+
+        case ORDER:
+            return new OrderBoImpl();
         default:
             return null;
     }

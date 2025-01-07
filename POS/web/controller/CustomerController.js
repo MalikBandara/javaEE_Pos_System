@@ -4,12 +4,30 @@ import {NAME,ADDRESS,SALARY,EMAIL,TEL} from "../util/regex.js";
 
 
 
+const GenerateCustomerId = () =>{
+    $.ajax({
+        url:"http://localhost:8080/POS_Web_exploded/customer/nextCus-id",
+        method:"GET",
+        success: (res) => {
+            console.log("response: ", res); // Log the entire response object
+            $("#CustomerId").val(res.nextIdCus);
+        },
+
+        error:(err)=>{
+            console.error(err)
+        }
+    })
+}
+
+GenerateCustomerId();
+
+
 $("#customerSaveButton").click(()=>{
 
 
 
 
-    const customerId = $("#CustomerId").val();
+    const CustomerId = $("#CustomerId").val();
     const Name = $("#name").val();
     const Address = $("#address").val();
     const Salary = $("#salary").val();
@@ -67,6 +85,7 @@ $("#customerSaveButton").click(()=>{
                 url:"http://localhost:8080/POS_Web_exploded/customer",
                 method:"POST",
                 data:{
+                     customerId:CustomerId,
                      Customer_Name:Name,
                      Customer_Address:Address,
                      Customer_Salary:Salary,
@@ -75,6 +94,9 @@ $("#customerSaveButton").click(()=>{
                 },
                 success:(response)=>{
                     getAllCustomers();
+                    clearField();
+                    GenerateCustomerId();
+
                     Swal.fire({
                         title: "Customer Saved!",
                         text: "The customer has been successfully saved.",
@@ -82,12 +104,12 @@ $("#customerSaveButton").click(()=>{
                         confirmButtonText: "OK",
 
                     });
-                    // console.log(customerId)
-                    // console.log(name)
-                    // console.log(Address)
-                    // console.log(Salary)
-                    // console.log(Mobile)
-                    // console.log(Email)
+                    console.log(CustomerId)
+                    console.log(name)
+                    console.log(Address)
+                    console.log(Salary)
+                    console.log(Mobile)
+                    console.log(Email)
 
                 },
                 error:(error)=>{
@@ -122,6 +144,8 @@ $("#DeleteCustomer").click(()=>{
                 success:(response)=>{
                     console.log(response)
                     getAllCustomers();
+                    clearField();
+                    GenerateCustomerId();
 
                 },
                 error:(err)=>{
@@ -212,6 +236,7 @@ $("#CustomerUpdateButton").click(()=>{
         method:"PUT",
         success:(res)=>{
             getAllCustomers();
+
             console.log(res)
             Swal.fire({
                 title: "Customer Update!",
@@ -219,7 +244,10 @@ $("#CustomerUpdateButton").click(()=>{
                 icon: "success",
                 confirmButtonText: "OK",
 
+
             });
+            clearField();
+            GenerateCustomerId();
 
         },
         error:(error)=>{
@@ -291,8 +319,8 @@ $("#CustomerTableBody").on('click' , 'tr' , function (){
 })
 
 
+const clearField = () =>{
 
-$("#ClearCustomer").click(()=>{
     $("#CustomerId").val('');
     $("#name").val('');
     $("#address").val('');
@@ -300,7 +328,18 @@ $("#ClearCustomer").click(()=>{
     $("#mobile").val('');
     $("#email").val('');
 
+
+
+}
+clearField();
+
+$("#ClearCustomer").click(()=>{
+clearField();
+
 })
+
+
+
 
 
 

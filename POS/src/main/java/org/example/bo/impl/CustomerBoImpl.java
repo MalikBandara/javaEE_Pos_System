@@ -16,7 +16,7 @@ public class CustomerBoImpl implements CustomerBo {
     CustomerDao customerDao = (CustomerDao) DaoFactory.getDaoFactory().getDao(DaoTypes.CUSTOMER);
     @Override
     public boolean SaveCustomer(CustomerDTO customerDTO) {
-      return   customerDao.save(new Customer(customerDTO.getCustomerName(),customerDTO.getCustomerAddress(),customerDTO.getCustomerSalary(),customerDTO.getCustomerMobile(),customerDTO.getCustomerEmail()));
+      return   customerDao.save(new Customer(customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getCustomerAddress(),customerDTO.getCustomerSalary(),customerDTO.getCustomerMobile(),customerDTO.getCustomerEmail()));
 
     }
 
@@ -50,5 +50,10 @@ public class CustomerBoImpl implements CustomerBo {
     @Override
     public boolean deleteCustomer(int customerId) {
       return  customerDao.delete(customerId);
+    }
+
+    @Override
+    public int getNextCustomerId() {
+          return customerDao.IdGenerate();
     }
 }

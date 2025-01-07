@@ -14,4 +14,6 @@ public interface CustomerBo extends SuperBO {
     List<CustomerDTO> getAllCustomer();
 
     boolean deleteCustomer(int customerId);
+
+    int getNextCustomerId();
 }

@@ -2,6 +2,7 @@ package org.example.dao;
 
 import org.example.dao.impl.CustomerDaoImpl;
 import org.example.dao.impl.ItemDaoImpl;
+import org.example.dao.impl.OrderDaoImpl;
 
 public class DaoFactory {
 
@@ -26,6 +27,9 @@ public class DaoFactory {
 
             case ITEM:
                 return new ItemDaoImpl();
+
+            case ORDER:
+                return new OrderDaoImpl();
 
             default:
                 return null;
