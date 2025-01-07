@@ -1,0 +1,60 @@
+package org.example.dao.impl;
+
+import org.example.dao.dao.ItemDao;
+import org.example.db.SessionFactoryConfuguration;
+import org.example.entity.Item;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
+
+public class ItemDaoImpl implements ItemDao {
+    @Override
+    public boolean save(Item item) {
+
+        Transaction transaction = null;
+        try {
+            Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+            transaction = session.beginTransaction();
+            session.save(item);
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update(Item item) {
+        return false;
+    }
+
+    @Override
+    public List<Item> getAll() {
+        return null;
+    }
+
+    @Override
+    public boolean delete(int customerId) {
+        return false;
+    }
+
+    @Override
+    public int IdGenerate() {
+
+        try (Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession()){
+            String hql = "SELECT COALESCE(MAX(i.ItemCode), 0) + 1 FROM Item i";
+            Query<Integer> query = session.createQuery(hql, Integer.class);
+            return query.uniqueResult();
+        }catch (Exception e){
+            e.printStackTrace();
+            return 1; // Start with 1 if the query fails
+        }
+
+
+    }
+}

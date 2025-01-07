@@ -1,6 +1,7 @@
 package org.example.bo;
 
 import org.example.bo.impl.CustomerBoImpl;
+import org.example.bo.impl.ItemBoImpl;
 
 public class BoFactory {
 
@@ -24,6 +25,9 @@ public class BoFactory {
     switch (boTypes){
         case CUSTOMER :
             return new CustomerBoImpl();
+
+        case ITEM:
+            return new ItemBoImpl();
         default:
             return null;
     }

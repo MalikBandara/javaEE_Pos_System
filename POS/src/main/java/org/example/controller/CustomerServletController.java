@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,24 +8,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.bo.BO.CustomerBo;
 import org.example.bo.BoFactory;
 import org.example.bo.BoTypes;
-import org.example.db.SessionFactoryConfuguration;
 import org.example.dto.CustomerDTO;
 import org.example.entity.Customer;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @WebServlet(urlPatterns = "/customer")
 
-public class CustomerServlet extends HttpServlet {
+public class CustomerServletController extends HttpServlet {
 
 
 

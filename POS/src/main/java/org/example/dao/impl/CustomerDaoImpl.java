@@ -83,4 +83,9 @@ public class CustomerDaoImpl implements CustomerDao {
         return true;
 
     }
+
+    @Override
+    public int IdGenerate() {
+        return 0;
+    }
 }
