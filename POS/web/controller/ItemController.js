@@ -61,6 +61,7 @@ $("#AddNewItem").click(()=>{
         success:(response)=>{
             console.log(response)
             clearFields();
+            GetAllItems();
             GenerateId();
             Swal.fire({
                 title: "Item !",
@@ -90,7 +91,92 @@ const clearFields = () =>{
 }
 
 
+$("#ItemClear").click(()=>{
+    clearFields();
+})
 
+
+$("#UpdateItems").click(()=>{
+    var ItemId = $("#ItemId").val();
+    var ItemName = $("#ItemName").val();
+    var ItemPrice = $("#price").val();
+    var ItemQuantity = $("#Qty").val();
+
+    $.ajax({
+        url:`http://localhost:8080/POS_Web_exploded/item?ItemCode=${ItemId}&ItemName=${ItemName}&ItemPrice=${ItemPrice}&Quantity=${ItemQuantity}`,
+        method:"PUT",
+        success:(res)=>{
+            console.log(res);
+            Swal.fire({
+                title: "Item !",
+                text: "Item Update Successfully !",
+                icon: "success",
+                confirmButtonText: "OK",
+            });
+            clearFields()
+            GetAllItems();
+            GenerateId();
+
+        },
+        error:(error)=>{
+            console.error(error)
+        }
+    })
+})
+
+
+
+$("#DeleteItem").click(()=>{
+
+    var itemID = $("#ItemId").val();
+
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to undo this action!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url:`http://localhost:8080/POS_Web_exploded/item?ItemCode=${itemID}`,
+                method:"DELETE",
+                success:(res)=>{
+                    clearFields()
+                    GetAllItems();
+                    GenerateId();
+                    console.log(res)
+
+                },
+                error:(error)=>{
+                    console.error(error)
+                }
+            })
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your item has been deleted.",
+                icon: "success",
+                confirmButtonText: "OK",
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: "Cancelled",
+                text: "Your item is safe!",
+                icon: "info",
+                confirmButtonText: "OK",
+            });
+        }
+    });
+
+
+
+
+})
 const GetAllItems = () =>{
 
 
@@ -160,3 +246,22 @@ const GenerateId = () => {
 
 // Call the function to generate the ID
 GenerateId();
+
+
+
+$("#ItemTableBody").on("click",'tr',function (){
+    var ItemCode = $(this).find('td').eq(0).text();
+    var ItemName = $(this).find('td').eq(1).text();
+    var ItemPrice = $(this).find('td').eq(2).text();
+    var Quantity = $(this).find('td').eq(3).text();
+
+    $("#ItemId").val(ItemCode);
+    $("#ItemName").val(ItemName);
+    $("#price").val(ItemPrice);
+    $("#Qty").val(Quantity);
+
+
+
+});
+
+

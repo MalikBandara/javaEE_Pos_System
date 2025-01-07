@@ -12,5 +12,9 @@ public interface ItemBo extends SuperBO {
     int generateNextId();
 
     List<ItemDTO> getAllItems();
+
+    boolean updateItem(ItemDTO itemDTO);
+
+    boolean DeleteItem(int itemId);
 }
 

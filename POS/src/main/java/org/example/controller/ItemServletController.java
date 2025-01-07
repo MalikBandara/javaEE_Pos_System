@@ -26,7 +26,37 @@ public class ItemServletController extends HttpServlet {
     ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBo(BoTypes.ITEM);
 
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        try {
+            String itemCode = req.getParameter("ItemCode");
+
+            int ItemId = Integer.parseInt(itemCode);
+
+            System.out.println(ItemId);
+
+            boolean b = itemBo.DeleteItem(ItemId);
+
+            if (b){
+                resp.setStatus(200);
+                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.getWriter().write("Item Deleted successfully");
+            }
+            else {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                resp.getWriter().write("Item not found");
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +74,11 @@ public class ItemServletController extends HttpServlet {
                 // If no specific path or base path, fetch all items
                 List<ItemDTO> allItems = itemBo.getAllItems();
 
+                for (ItemDTO itemDTO : allItems) {
+                    System.out.println(itemDTO);
+                }
+
+
                 List<Item> itemList = new ArrayList<>();
                 for (ItemDTO itemDTO : allItems) {
                     Item item = new Item();
@@ -53,6 +88,7 @@ public class ItemServletController extends HttpServlet {
                     item.setQuantity(itemDTO.getQuantity());
                     itemList.add(item);
                 }
+
 
                 JsonArrayBuilder allItemsJson = Json.createArrayBuilder();
                 for (Item item : itemList) {
@@ -84,8 +120,30 @@ public class ItemServletController extends HttpServlet {
     }
 
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String itemCode = req.getParameter("ItemCode");
+        String name = req.getParameter("ItemName");
+        String itemPrice = req.getParameter("ItemPrice");
+        String quantity = req.getParameter("Quantity");
+
+        int i = Integer.parseInt(itemCode);
 
 
+        ItemDTO itemDTO = new ItemDTO(i, name, itemPrice, quantity);
+
+        boolean b = itemBo.updateItem(itemDTO);
+
+        if (b){
+            resp.setStatus(200);
+            resp.setStatus(HttpServletResponse.SC_OK);
+            resp.getWriter().write("Item Update successfully");
+        }
+        else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().write("Item not found");
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -97,7 +155,9 @@ public class ItemServletController extends HttpServlet {
             String itemPrice = req.getParameter("ItemPrice");
             String quantity = req.getParameter("Quantity");
 
-            ItemDTO item = new ItemDTO(itemCode, name, itemPrice, quantity);
+            int i = Integer.parseInt(itemCode);
+
+            ItemDTO item = new ItemDTO(i, name, itemPrice, quantity);
 
             boolean b = itemBo.saveItem(item);
 

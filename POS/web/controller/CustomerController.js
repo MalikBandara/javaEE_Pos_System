@@ -104,31 +104,49 @@ $("#DeleteCustomer").click(()=>{
 
     var id = $("#CustomerId").val();
 
-    $.ajax({
-        url:`http://localhost:8080/POS_Web_exploded/customer?customerId=${id}`,
-        method:"DELETE",
-        success:(response)=>{
-            console.log(response)
-            getAllCustomers();
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to undo this action!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url:`http://localhost:8080/POS_Web_exploded/customer?customerId=${id}`,
+                method:"DELETE",
+                success:(response)=>{
+                    console.log(response)
+                    getAllCustomers();
+
+                },
+                error:(err)=>{
+                    console.error(err);
+
+                }
+            })
             Swal.fire({
-                title: "Customer Delete!",
-                text: "The customer has been successfully Deleted.",
+                title: "Deleted!",
+                text: "Your item has been deleted.",
                 icon: "success",
                 confirmButtonText: "OK",
-
             });
-        },
-        error:(err)=>{
-            console.error(err);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire({
-                title: "Customer Delete!",
-                text: "oops keliya neda ? ",
-                icon: "error",
+                title: "Cancelled",
+                text: "Your item is safe!",
+                icon: "info",
                 confirmButtonText: "OK",
-
             });
         }
-    })
+    });
+
+
+
 
 
 })

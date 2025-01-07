@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Item {
 
     @Id
-    private String ItemCode;
+    private int ItemCode;
 
     private String ItemName;
 

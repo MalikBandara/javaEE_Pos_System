@@ -31,7 +31,20 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean update(Item item) {
-        return false;
+
+        Transaction transaction = null;
+
+        try (Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession()){
+            transaction =  session.beginTransaction();
+            session.update(item);
+            transaction.commit();
+            return true;
+
+        }catch (Exception e ){
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
     }
 
     @Override
@@ -54,8 +67,15 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public boolean delete(int customerId) {
-        return false;
+    public boolean delete(int ItemId) {
+        Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Item item = session.get(Item.class , ItemId);
+        session.delete(item);
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override

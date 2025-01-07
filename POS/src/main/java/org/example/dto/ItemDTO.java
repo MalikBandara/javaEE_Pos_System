@@ -10,11 +10,21 @@ import lombok.Setter;
 @Setter
 public class ItemDTO {
 
-    private String ItemCode;
+    private int ItemCode;
 
     private String ItemName;
 
     private String ItemPrice;
 
     private String Quantity;
+
+    @Override
+    public String toString() {
+        return "ItemDTO{" +
+                "itemCode=" + ItemCode +
+                ", itemName='" + ItemName + '\'' +
+                ", itemPrice=" + ItemPrice +
+                ", quantity=" + Quantity +
+                '}';
+    }
 }
