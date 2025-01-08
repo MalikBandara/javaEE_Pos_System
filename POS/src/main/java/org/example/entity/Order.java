@@ -16,10 +16,11 @@ import lombok.Setter;
 @Table(name = "Orders")
 public class Order {
     @Id
-    private String orderId;
+    private int orderId;
+    private int itcode;
     private String itemName;
     private String itemPrice;
-    private String Quantity;
+    private int Quantity;
     private String subtotal;
 
     @ManyToOne

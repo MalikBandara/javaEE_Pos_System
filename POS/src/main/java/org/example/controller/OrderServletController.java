@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.bo.BO.ItemBo;
 import org.example.bo.BO.OrderBo;
 import org.example.bo.BoFactory;
 import org.example.bo.BoTypes;
@@ -27,33 +28,153 @@ public class OrderServletController extends HttpServlet {
 
     OrderBo orderBo = (OrderBo) BoFactory.getBoFactory().getBo(BoTypes.ORDER);
 
+    ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBo(BoTypes.ITEM);
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+
+
+            // Retrieve and validate orderId parameter
+            String orderId = req.getParameter("orderId");
+            if (orderId == null || orderId.isEmpty()) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            int orderIdInt = Integer.parseInt(orderId);
+            // Call business logic to delete the order
+            boolean isDeleted = orderBo.deleteCartOrder(orderIdInt);
+
+            if (isDeleted) {
+
+                //set the ajax and path
+                String itemCode = req.getParameter("ItemCode");
+                String quantity = req.getParameter("Quantity");
+
+
+
+                int itemCodee = Integer.parseInt(itemCode);
+                int quantityToAdd = Integer.parseInt(quantity);
+
+
+                ItemDTO itemDTO = orderBo.searchByItemId(itemCodee);
+//                System.out.println("order item loaded " + itemDTO);
+                String quantity1 = itemDTO.getQuantity();
+                int Quantity = Integer.parseInt(quantity1);
+
+                if (itemDTO != null) {
+
+                    if (Quantity >= quantityToAdd) {
+                        int updatedQuantity = Quantity + quantityToAdd;
+                        String updatedQuantityStr = String.valueOf(updatedQuantity);
+                        itemDTO.setQuantity(updatedQuantityStr);
+
+                        boolean isUpdated = itemBo.updateItem(itemDTO);
+
+//                        if (isUpdated) {
+//
+//
+//                        }
+
+                    }
+
+
+                }
+
+                //item table quantity update code
+                resp.setStatus(200);
+                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.getWriter().write("Order Save successfully");
+
+            }
+
+
+
+
+        } catch (NumberFormatException e) {
+            // Handle invalid number format exceptions
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid numeric input.");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+            e.printStackTrace(); // Log the exception for debugging purposes
+        }
+    }
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String orderId = req.getParameter("orderId");
-        String quantity = req.getParameter("Quantity");
-        String itemName = req.getParameter("itemName");
-        String itemPrice = req.getParameter("itemPrice");
-        String subtotal = req.getParameter("subtotal");
-        String customerId = req.getParameter("customer_id");
 
-        CustomerDTO customerDTO = orderBo.searchByCustomerId(customerId);
-        Customer customer = new Customer(customerDTO.getCustomerId(), customerDTO.getCustomerName(), customerDTO.getCustomerAddress(), customerDTO.getCustomerSalary(), customerDTO.getCustomerMobile(), customerDTO.getCustomerEmail());
+        try {
 
-        OrderDTO orderDTO = new OrderDTO(orderId, quantity, itemName, itemPrice, subtotal, customer);
+            String orderId = req.getParameter("orderId");
+            String quantity = req.getParameter("Quantity");
+            String itemCode = req.getParameter("itcode");
+            String itemName = req.getParameter("itemName");
+            String itemPrice = req.getParameter("itemPrice");
+            String subtotal = req.getParameter("subtotal");
+            String customerId = req.getParameter("customer_id");
 
-        boolean b = orderBo.saveOrders(orderDTO);
+            int i = Integer.parseInt(orderId);
+            int itemcode = Integer.parseInt(itemCode);
+            int quantit = Integer.parseInt(quantity);
 
-        if (b){
-            resp.setStatus(200);
-            resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().write("Order Save successfully");
-        }
-        else {
+
+            CustomerDTO customerDTO = orderBo.searchByCustomerId(customerId);
+            Customer customer = new Customer(customerDTO.getCustomerId(), customerDTO.getCustomerName(), customerDTO.getCustomerAddress(), customerDTO.getCustomerSalary(), customerDTO.getCustomerMobile(), customerDTO.getCustomerEmail());
+
+            OrderDTO orderDTO = new OrderDTO(i,quantit, itemcode,  itemName, itemPrice, subtotal, customer);
+
+            boolean b = orderBo.saveOrders(orderDTO);
+
+
+            if (b) {
+
+                //set the ajax and path
+                String itemCode1 = req.getParameter("itcode");
+
+                int i1 = Integer.parseInt(itemCode1);
+                int quantityToAdd = Integer.parseInt(req.getParameter("Quantity"));
+
+                ItemDTO itemDTO = orderBo.searchByItemId(i1);
+
+                System.out.println("order item loaded " + itemDTO);
+
+
+                String quantity1 = itemDTO.getQuantity();
+                int Quantity = Integer.parseInt(quantity1);
+
+                if (itemDTO != null) {
+
+                    if (Quantity >= quantityToAdd) {
+                        int updatedQuantity = Quantity - quantityToAdd;
+                        String updatedQuantityStr = String.valueOf(updatedQuantity);
+                        itemDTO.setQuantity(updatedQuantityStr);
+
+                        boolean isUpdated = itemBo.updateItem(itemDTO);
+
+//                        if (isUpdated) {
+//
+//
+//                        }
+
+                    }
+
+
+                }
+
+                //item table quantity update code
+                resp.setStatus(200);
+                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.getWriter().write("Order Save successfully");
+
+            }
+
+        }catch (Exception e ){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            resp.getWriter().write("Item not found");
+
         }
-
-
     }
 
     @Override
@@ -84,7 +205,9 @@ public class OrderServletController extends HttpServlet {
             }else if (pathInfo != null && pathInfo.equals("/item")){
                 String itemCode = req.getParameter("ItemCode");
 
-                ItemDTO itemDTO = orderBo.searchByItemId(itemCode);
+                int i = Integer.parseInt(itemCode);
+
+                ItemDTO itemDTO = orderBo.searchByItemId(i);
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
 
@@ -109,10 +232,11 @@ public class OrderServletController extends HttpServlet {
                     JsonObjectBuilder AllOrderObj = Json.createObjectBuilder().
                             add("orderId" , orderDTO.getOrderId()).
                             add("Quantity",orderDTO.getQuantity()).
+                            add("itcode",orderDTO.getItemCode()).
                             add("itemName",orderDTO.getItemName()).
                             add("itemPrice",orderDTO.getItemPrice()).
                             add("subtotal",orderDTO.getSubtotal()).
-                            add("customer_id", 1);
+                            add("customer_id", orderDTO.getCustomer().getCustomerId());
 
                     AllOrderArr.add(AllOrderObj);
                 }

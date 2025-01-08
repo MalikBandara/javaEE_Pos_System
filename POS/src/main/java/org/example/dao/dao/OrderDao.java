@@ -10,5 +10,5 @@ import java.util.List;
 public interface OrderDao extends CrudDAO<Order> {
     Customer getAllCustomers(String customerId);
 
-    Item getAllItems(String itemCode);
+    Item getAllItems(int itemCode);
 }

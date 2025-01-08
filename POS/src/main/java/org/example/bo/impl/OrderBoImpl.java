@@ -35,7 +35,7 @@ public class OrderBoImpl implements OrderBo {
     }
 
     @Override
-    public ItemDTO searchByItemId(String itemCode) {
+    public ItemDTO searchByItemId(int itemCode) {
         Item allItems = orderDao.getAllItems(itemCode);
         ItemDTO itemDTO = new ItemDTO(allItems.getItemCode(), allItems.getItemName(), allItems.getItemPrice(), allItems.getQuantity());
         return itemDTO;
@@ -43,7 +43,7 @@ public class OrderBoImpl implements OrderBo {
 
     @Override
     public boolean saveOrders(OrderDTO orderDTO) {
-        return orderDao.save(new Order(orderDTO.getOrderId(),orderDTO.getItemName(),orderDTO.getItemPrice(),orderDTO.getQuantity(),orderDTO.getSubtotal(),orderDTO.getCustomer()));
+        return orderDao.save(new Order(orderDTO.getOrderId(),orderDTO.getItemCode(),orderDTO.getItemName(),orderDTO.getItemPrice(),orderDTO.getQuantity(),orderDTO.getSubtotal(),orderDTO.getCustomer()));
     }
 
     @Override
@@ -52,11 +52,21 @@ public class OrderBoImpl implements OrderBo {
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         for (Order order : all){
-            OrderDTO orderDTO = new OrderDTO(order.getOrderId(), order.getItemName(), order.getItemPrice(), order.getQuantity(), order.getSubtotal(), order.getCustomer());
+            OrderDTO orderDTO = new OrderDTO(order.getOrderId(),order.getQuantity(),order.getItcode(),order.getItemName(),order.getItemPrice(),order.getSubtotal(),order.getCustomer());
             orderDTOS.add(orderDTO);
         }
         return orderDTOS;
 
+    }
+
+    @Override
+    public boolean deleteCartOrder(String orderid) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteCartOrder(int orderid) {
+      return orderDao.delete(orderid);
     }
 
 }

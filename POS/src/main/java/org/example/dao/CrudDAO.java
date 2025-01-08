@@ -14,5 +14,7 @@ public interface CrudDAO<T> extends SuperDAO{
 
     boolean delete(int customerId);
 
+    boolean delete(String customerId);
+
     int IdGenerate();
 }

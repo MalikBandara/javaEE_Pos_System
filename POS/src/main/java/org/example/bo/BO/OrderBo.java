@@ -10,9 +10,13 @@ import java.util.List;
 public interface OrderBo extends SuperBO {
     CustomerDTO searchByCustomerId(String customerId);
 
-    ItemDTO searchByItemId(String itemCode);
+    ItemDTO searchByItemId(int itemCode);
 
     boolean saveOrders(OrderDTO orderDTO);
 
     List<OrderDTO> getAllOrders();
+
+    boolean deleteCartOrder(int orderid);
+
+    boolean deleteCartOrder(String  orderid);
 }

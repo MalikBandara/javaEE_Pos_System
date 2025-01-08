@@ -79,6 +79,11 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
+    public boolean delete(String customerId) {
+        return false;
+    }
+
+    @Override
     public int IdGenerate() {
 
         try (Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession()){

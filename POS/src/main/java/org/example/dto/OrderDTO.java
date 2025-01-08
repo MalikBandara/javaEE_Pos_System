@@ -12,10 +12,11 @@ import org.example.entity.Customer;
 @Getter
 @Setter
 public class OrderDTO {
-    private String orderId;
+    private int orderId;
+    private int Quantity;
+    private int ItemCode;
     private String itemName;
     private String itemPrice;
-    private String Quantity;
     private String subtotal;
     private Customer customer;
 

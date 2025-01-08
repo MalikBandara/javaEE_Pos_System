@@ -54,8 +54,32 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(int customerId) {
+    public boolean delete(String customerId) {
         return false;
+    }
+
+    @Override
+    public boolean delete(int orderid) {
+        Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        // Fetch the order by its ID
+        Order order = session.get(Order.class, orderid);
+
+        // Check if the order is found
+        if (order != null) {
+            // If the order exists, delete it
+            session.delete(order);
+            transaction.commit();
+        } else {
+            // Handle the case where the order does not exist
+            System.out.println("Order not found with ID: " + orderid);
+            transaction.rollback(); // Rollback the transaction if the order does not exist
+            return false; // Indicate failure to delete
+        }
+
+        session.close();
+        return true; // Indicate successful deletion
     }
 
     @Override
@@ -87,7 +111,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Item getAllItems(String itemCode) {
+    public Item getAllItems(int itemCode) {
         try {
             Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
             Transaction transaction = session.beginTransaction();

@@ -94,6 +94,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public boolean delete(String customerId) {
+        return false;
+    }
+
+    @Override
     public int IdGenerate() {
         try (Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession()){
             String hql = "SELECT COALESCE(MAX(c.customerId), 0) + 1 FROM Customer c";
