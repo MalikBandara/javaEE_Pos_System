@@ -3,6 +3,7 @@ package org.example.dao;
 import org.example.dao.impl.CustomerDaoImpl;
 import org.example.dao.impl.ItemDaoImpl;
 import org.example.dao.impl.OrderDaoImpl;
+import org.example.dao.impl.OrderHistoryDaoImpl;
 
 public class DaoFactory {
 
@@ -30,6 +31,8 @@ public class DaoFactory {
 
             case ORDER:
                 return new OrderDaoImpl();
+            case ORDERHISTORY:
+                return new OrderHistoryDaoImpl();
 
             default:
                 return null;

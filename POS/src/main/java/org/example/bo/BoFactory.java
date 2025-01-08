@@ -3,6 +3,7 @@ package org.example.bo;
 import org.example.bo.impl.CustomerBoImpl;
 import org.example.bo.impl.ItemBoImpl;
 import org.example.bo.impl.OrderBoImpl;
+import org.example.bo.impl.OrderHistoryBoImpl;
 
 public class BoFactory {
 
@@ -32,6 +33,8 @@ public class BoFactory {
 
         case ORDER:
             return new OrderBoImpl();
+        case ORDERHISTORY:
+            return new OrderHistoryBoImpl();
         default:
             return null;
     }
