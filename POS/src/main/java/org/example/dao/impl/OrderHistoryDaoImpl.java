@@ -1,14 +1,28 @@
 package org.example.dao.impl;
 
 import org.example.dao.dao.OrderHistoryDao;
+import org.example.db.SessionFactoryConfuguration;
 import org.example.entity.OrderHistory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderHistoryDaoImpl implements OrderHistoryDao {
     @Override
     public boolean save(OrderHistory orderHistory) {
-        return false;
+        try {
+            Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+            Transaction transaction = session.beginTransaction();
+            session.save(orderHistory);
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e ){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -18,7 +32,22 @@ public class OrderHistoryDaoImpl implements OrderHistoryDao {
 
     @Override
     public List<OrderHistory> getAll() {
-        return null;
+
+        try {
+
+            Session session = SessionFactoryConfuguration.getSessionFactoryConfuguration().getSession();
+            Transaction transaction = session.beginTransaction();
+
+            List<OrderHistory> orderHistories = new ArrayList<>();
+            orderHistories =  session.createQuery("from OrderHistory ").list();
+            transaction.commit();
+            session.close();
+            return orderHistories;
+
+        }catch (Exception e ){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
